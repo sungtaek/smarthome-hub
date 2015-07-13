@@ -1,7 +1,7 @@
 import logging
 import json
 import RPi.GPIO as GPIO
-from . import Agent
+from agent import Agent
 
 logger = logging.getLogger(__name__)
 
@@ -9,7 +9,7 @@ class Led(Agent):
     GPIO_NUM_LED = 12
 
     def __init__(self, name):
-        super(LedAgent, self).__init__(name)
+        super(Led, self).__init__(name)
         GPIO.setwarnings(False)
         GPIO.setmode(GPIO.BOARD)
         GPIO.setup(self.GPIO_NUM_LED, GPIO.OUT)

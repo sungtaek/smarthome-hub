@@ -6,10 +6,11 @@ from agent import Agent
 logger = logging.getLogger(__name__)
 
 class HubNamespace(LoggingNamespace):
-    def initialize(self, home):
-        self.home = home
+    def initialize(self):
         self.agents = []
-        logger.info('HubNamespace[%s] created' % (self.home))
+
+    def set_home(self, home):
+        self.home = home
 
     def add_agent(self, agent):
         self.agents.append(agent)
@@ -23,11 +24,11 @@ class HubNamespace(LoggingNamespace):
             account['home'] = self.home
             account['agent'] = agent.get_name()
             self.emit('join', account)
-            logger.info('join %s' % (json.dumps(account)))
+            logger.info('send join -> %s' % (json.dumps(account)))
 
     def on_action(self, *args):
         action = args[0]
-        logger.info('on_action <- %s' % (json.dumps(action)))
+        logger.info('recv action <- %s' % (json.dumps(action)))
 
         for agent in self.agents:
             if action['target'] == agent.get_name():
@@ -38,9 +39,13 @@ class HubNamespace(LoggingNamespace):
                 result['code'] = code
                 result['message'] = message
                 self.emit('result', result)
+                logger.info('send result -> %s' % (json.dumps(result)))
                 break
             
     def on_join(self, *args):
         account = args[0]
-        logger.info('on_join <- %s' % (json.dumps(account)))
+        logger.info('recv join <- %s' % (json.dumps(account)))
 
+    def on_leave(self, *args):
+        account = args[0]
+        logger.info('recv leave <- %s' % (json.dumps(account)))
