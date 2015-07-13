@@ -1,4 +1,4 @@
-mport io
+import io
 from os.path import abspath, dirname, join
 from setuptools import setup, find_packages
 
