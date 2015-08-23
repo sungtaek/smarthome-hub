@@ -1,2 +1,2 @@
-# Smarthome-hub
-Smarthome hub agent
+# smarthome-hub
+smarthome hub agent
